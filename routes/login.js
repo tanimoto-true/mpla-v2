@@ -53,39 +53,40 @@ router.post('/', function(req, res, next) {
 
         let pool = new Pool(db_config);
 
-        pool.connect().then(client => {
+        pool.connect()
 
-            client.query('SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'")
+            .then(client => {
 
-                .then(result => {
+                client.query('SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'")
 
-                    if(result.rows[0].count === "1"){
+                    .then(result => {
 
-                        //セッションにidをセットする
-                        req.session.user = id;
+                        if(result.rows[0].count === "1"){
 
-                        //セッションにloginステータスをセットする
-                        req.session.login = 'yes';
+                            //セッションにidをセットする
+                            req.session.user = id;
 
+                            //セッションにloginステータスをセットする
+                            req.session.login = 'yes';
+
+                            client.release();
+
+                            //userページを表示する
+                            res.render('user', {"id": id});
+
+                        }else{
+
+                            //ログイン失敗のメッセージを表示する
+                            res.send('login失敗');
+                        }
+                    })
+                    .catch(e => {
                         client.release();
-
-                        //userページを表示する
-                        res.render('user', {"id": id});
-
-                    }else{
-
-                        //ログイン失敗のメッセージを表示する
-                        res.send('login失敗');
-                    }
-
-                })
-                .catch(e => {
-                    client.release();
-                    console.error('query error', e.message, e.stack);
-                });
-        })
-            .catch(() => {
-                let err = new Error('DB connection error');
+                        console.error('query error', e.message, e.stack);
+                    });
+            })
+            .catch(e => {
+                let err = new Error('DB connection error : ' + e.message);
                 err.status = 501;
                 next(err);
             });
