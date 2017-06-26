@@ -81,8 +81,10 @@ router.post('/', function(req, res, next) {
                         }
                     })
                     .catch(e => {
+                        let err = new Error('query error : ' + e.message);
+                        err.status = 501;
                         client.release();
-                        console.error('query error', e.message, e.stack);
+                        next(err);
                     });
             })
             .catch(e => {
