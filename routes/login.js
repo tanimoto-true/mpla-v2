@@ -1,4 +1,9 @@
 let express = require('express');
+
+const helmet = require('helmet');
+let app = express().use(helmet());
+app.use(helmet());
+
 let router = express.Router();
 let session = require('express-session');
 let pg = require('pg');
@@ -17,7 +22,7 @@ const db_config = {
       password: auth[1],
       port: params.port,
       ssl: true,
-      max: 20, //set pool max size to 20
+      max: 10, //set pool max size to 20
       min: 4, //set min pool size to 4
       idleTimeoutMillis: 1000 //close idle clients after 1 second
 };
@@ -28,7 +33,7 @@ router.get('/', function(req, res) {
     //ログインしている場合
     if( req.session.login === 'yes' ){
 
-        res.render('user', {"id": req.session.user});
+        res.redirect('user');
 
     //ログインしていない場合
     }else{
@@ -57,7 +62,9 @@ router.post('/', function(req, res, next) {
 
             .then(client => {
 
-                client.query('SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'")
+                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'";
+
+                client.query(query)
 
                     .then(result => {
 
@@ -81,7 +88,7 @@ router.post('/', function(req, res, next) {
                         }
                     })
                     .catch(e => {
-                        let err = new Error('query error : ' + e.message);
+                        let err = new Error('query error : ' + e.message + "\n" + 'query : ' + query);
                         err.status = 501;
                         client.release();
                         next(err);
