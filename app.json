@@ -1,0 +1,35 @@
+{
+  "name": "mpla-v2",
+  "scripts": {
+  },
+  "env": {
+    "DATABASE_URL": {
+      "required": true
+    },
+    "PGDATABASE": {
+      "required": true
+    },
+    "PGPASSWORD": {
+      "required": true
+    },
+    "PGPORT": {
+      "required": true
+    },
+    "PGSSLMODE": {
+      "required": true
+    },
+    "PGUSER": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
