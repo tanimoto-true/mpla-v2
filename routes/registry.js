@@ -19,38 +19,57 @@ router.get('/', function (req, res, next){
 
 router.post('/', function (req, res, next){
 
-    let id = req.body.id,
-        pw = req.body.pw,
-        error = {};
+    let user  = req.body.user,
+        pw    = req.body.pw,
+        error = {
+            mail_err: "",
+            pw_length: "",
+            pw_format: ""
+        };
 
-    //メールフォーマットチェック
-    error.mail_format = '';
-    if( !validator.isEmail(id) ){
+    if( user === "" ){
 
-        error.mail_format = 'MAIL ADDRESS format is not correct';
+        error.mail_err = "Empty mail address";
+
+    }else{
+
+        //メールフォーマットチェック
+        if( !validator.isEmail(user) ){
+
+            error.mail_err = 'Mail format is not correct';
+        }
     }
 
-    //パスワードケタ数チェック
-    error.pw_length = '';
-    if( !validator.isLength(pw, {min:6, max:12})){
+    if( pw === "" ){
 
-        error.pw_length = 'password should be within 6-12 letters';
+        error.pw_length = "Empty password";
+
+    }else{
+
+        //パスワードケタ数チェック
+        if( !validator.isLength(pw, {min:6, max:12})){
+
+            error.pw_length = 'Password should be within 6-12 letters';
+        }
+
+        //パスワードフォーマットチェック
+        if( !validator.isAlphanumeric(pw) ){
+
+            error.pw_format = 'Password should only contains alphabetical or numeric characters';
+        }
     }
 
-    //パスワードフォーマットチェック
-    error.pw_format = '';
-    if( !validator.isAlphanumeric(pw) ){
 
-        error.pw_format = 'password should only contains alphabetical or numeric characters';
-    }
-
-    if( !validator.isEmpty(error.mail_format) ||
+    if( !validator.isEmpty(error.mail_err) ||
         !validator.isEmpty(error.pw_length)   ||
         !validator.isEmpty(error.pw_format)) {
 
         res.render('registry', error);
 
     }else{
+
+        req.session.user = req.body.user;
+        req.session.pw   = req.body.pw;
 
         res.redirect('confirm');
     }
