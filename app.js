@@ -1,4 +1,5 @@
-let express = require('express');
+const express = require('express');
+const helmet = require('helmet');
 let path = require('path');
 let favicon = require('serve-favicon');
 let logger = require('morgan');
@@ -13,13 +14,15 @@ let index = require('./routes/index');
 let login = require('./routes/login');
 let user = require('./routes/user');
 let async = require('./routes/async');
+let registry = require('./routes/registry');
 let err_handler = require('./routes/err_handler');
 
 
 let app = express();
 
+app.use(helmet());
 
-///////////////////////
+  ///////////////////////
  // view engine setup //
 ///////////////////////
 
@@ -60,6 +63,7 @@ app.use('/', index);
 app.use('/login', login);
 app.use('/user', user);
 app.use('/async', async);
+app.use('/registry', registry);
 
 
   ////////////////////////////////////////////
