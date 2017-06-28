@@ -3,7 +3,7 @@ const router  = express.Router();
 
 router.get('/', function (req, res, next){
 
-    res.render('confirm', { user: req.session.user,
+    res.render('registry/confirm', { user: req.session.user,
                             pw: req.session.pw
     });
 });

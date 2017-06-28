@@ -24,7 +24,7 @@
 
         <button onclick="history.back();">back</button>
 
-        <form action="/registry_fin" method="post">
+        <form action="./registry_fin" method="post">
             <input type="hidden" name="user" value="<% if(typeof user !== "undefined"){ %><%= user %><% } %>">
             <input type="hidden" name="pw" value="<% if(typeof pw !== "undefined"){ %><%= pw %><% } %>">
             <input type="submit" value="submit!!">
