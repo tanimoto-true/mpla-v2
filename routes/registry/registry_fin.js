@@ -36,7 +36,7 @@ router.post('/', function (req, res, next){
     //idもしくはpwが空の場合
     if( user === "" ||  pass === ""){
 
-        res.render('registry');
+        res.render('registry/registry');
 
     }else{
 

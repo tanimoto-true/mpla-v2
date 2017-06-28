@@ -33,12 +33,12 @@ router.get('/', function(req, res) {
     //ログインしている場合
     if( req.session.login === 'yes' ){
 
-        res.redirect('user');
+        res.redirect('/user');
 
     //ログインしていない場合
     }else{
 
-        res.render('login');
+        res.render('login/login');
     }
 });
 
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next) {
     //idもしくはpwが空の場合
     if( id === "" ||  pass === ""){
 
-        res.render('login', {"id": id});
+        res.render('login/login', {"id": id});
 
     }else{
 
@@ -79,7 +79,7 @@ router.post('/', function(req, res, next) {
                             client.release();
 
                             //userページを表示する
-                            res.render('user', {"id": id});
+                            res.render('user/user', {"id": id});
 
                         }else{
 

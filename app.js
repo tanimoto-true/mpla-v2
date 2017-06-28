@@ -11,12 +11,14 @@ let pg = require('pg');
 let dotenv = require('dotenv').config();
 
 let index = require('./routes/index');
-let login = require('./routes/login');
-let user = require('./routes/user');
+let login = require('./routes/login/login');
+let logout = require('./routes/login/logout');
+let user = require('./routes/user/user');
 let async = require('./routes/async');
-let registry = require('./routes/registry');
-let confirm = require('./routes/confirm');
-let registry_fin = require('./routes/registry_fin');
+let registry = require('./routes/registry/registry');
+let confirm = require('./routes/registry/confirm');
+let registry_fin = require('./routes/registry/registry_fin');
+
 let err_handler = require('./routes/err_handler');
 
 
@@ -63,11 +65,12 @@ app.use(session({
 
 app.use('/', index);
 app.use('/login', login);
+app.use('/logout', logout);
 app.use('/user', user);
 app.use('/async', async);
 app.use('/registry', registry);
-app.use('/confirm', confirm);
-app.use('/registry_fin', registry_fin);
+app.use('/registry/confirm', confirm);
+app.use('/registry/registry_fin', registry_fin);
 
 
   ////////////////////////////////////////////

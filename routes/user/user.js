@@ -7,7 +7,7 @@ router.get('/', function (req, res, next){
     //ログインしている場合
     if( req.session.login === 'yes' ){
 
-        res.render('user', {"id": req.session.user});
+        res.render('user/user', {"id": req.session.user});
 
     //ログインしていない場合
     }else{

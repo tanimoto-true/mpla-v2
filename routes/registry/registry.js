@@ -5,7 +5,7 @@ const validator = require('validator');
 /* Get registry page */
 router.get('/', function (req, res, next){
 
-    res.render('registry');
+    res.render('registry/registry');
 });
 
 router.post('/', function (req, res, next){
@@ -55,14 +55,14 @@ router.post('/', function (req, res, next){
         !validator.isEmpty(error.pw_length) ||
         !validator.isEmpty(error.pw_format)) {
 
-        res.render('registry', error);
+        res.render('registry/registry', error);
 
     }else{
 
         req.session.user = req.body.user;
         req.session.pw   = req.body.pw;
 
-        res.redirect('confirm');
+        res.redirect('/registry/confirm');
     }
 });
 
