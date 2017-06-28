@@ -19,9 +19,9 @@
     <div>
         <ul>
             <div><h2>input followings and click next</h2></div>
-            <li>mail : <input type="text" name="id"></li>
+            <li>mail : <input type="text" name="user"></li>
 
-            <% if(typeof mail_format !== "undefined"){ %><span class="err"><%= mail_format %></span><br><% } %>
+            <% if(typeof mail_err !== "undefined"){ %><span class="err"><%= mail_err %></span><br><% } %>
 
             <li>pass : <input type="password" name="pw"></li>
 
