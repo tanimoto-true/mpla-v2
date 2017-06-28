@@ -5,16 +5,7 @@ const validator = require('validator');
 /* Get registry page */
 router.get('/', function (req, res, next){
 
-    //ログインしている場合
-    if( req.session.login === 'yes' ){
-
-        res.redirect('user');
-
-    //ログインしていない場合
-    }else{
-
-        res.render('registry');
-    }
+    res.render('registry');
 });
 
 router.post('/', function (req, res, next){
@@ -60,8 +51,8 @@ router.post('/', function (req, res, next){
     }
 
 
-    if( !validator.isEmpty(error.mail_err) ||
-        !validator.isEmpty(error.pw_length)   ||
+    if( !validator.isEmpty(error.mail_err)  ||
+        !validator.isEmpty(error.pw_length) ||
         !validator.isEmpty(error.pw_format)) {
 
         res.render('registry', error);

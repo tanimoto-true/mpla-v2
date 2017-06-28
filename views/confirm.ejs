@@ -15,19 +15,20 @@
 
 <h1>Confirm what you input!!</h1>
 
-<form action="registry" method="post">
     <div>
+        <div><h2>If it's okay, click submit button to register!!</h2></div>
         <ul>
-            <div><h2>If it's okay, click submit button to register!!</h2></div>
-
             <li>mail : <% if(typeof user !== "undefined"){ %><span class="confirm"><%= user %></span><br><% } %></li>
             <li>pass : <% if(typeof pw   !== "undefined"){ %><span class="confirm"><%= pw %></span><br><% } %></li>
-
-            <button onclick="javascript:location.href ='registry'">back</button>
-            <input type="submit" value="submit!!">
         </ul>
-    </div>
-</form>
 
+        <button onclick="history.back();">back</button>
+
+        <form action="/registry_fin" method="post">
+            <input type="hidden" name="user" value="<% if(typeof user !== "undefined"){ %><%= user %><% } %>">
+            <input type="hidden" name="pw" value="<% if(typeof pw !== "undefined"){ %><%= pw %><% } %>">
+            <input type="submit" value="submit!!">
+        </form>
+    </div>
 </body>
 </html>
