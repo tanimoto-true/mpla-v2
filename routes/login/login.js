@@ -4,28 +4,13 @@ const helmet = require('helmet');
 let app = express().use(helmet());
 app.use(helmet());
 
-let router = express.Router();
-let session = require('express-session');
-let pg = require('pg');
-let Pool = require('pg-pool');
-let dotenv = require('dotenv').config();
+const router = express.Router();
+const session = require('express-session');
+const pg = require('pg');
+const Pool = require('pg-pool');
+const dotenv = require('dotenv').config();
 
-const url = require('url');
-
-const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');
-
-const db_config = {
-      host:  params.hostname,
-      database: params.pathname.split('/')[1],
-      user: auth[0],
-      password: auth[1],
-      port: params.port,
-      ssl: true,
-      max: 10, //set pool max size to 20
-      min: 4, //set min pool size to 4
-      idleTimeoutMillis: 1000 //close idle clients after 1 second
-};
+const config = require('../../conf/config');
 
 /* GET login listing. */
 router.get('/', function(req, res) {
@@ -56,13 +41,17 @@ router.post('/', function(req, res, next) {
 
     }else{
 
-        let pool = new Pool(db_config);
+        let pool = new Pool(config.db_config);
+
+        (function login(){
 
         pool.connect()
 
             .then(client => {
 
-                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'";
+                const register = require('../register/register_funcs');
+
+                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + register.hash_password(pass) + "'";
 
                 client.query(query)
 
@@ -99,6 +88,7 @@ router.post('/', function(req, res, next) {
                 err.status = 501;
                 next(err);
             });
+        }());
     }
 });
 
