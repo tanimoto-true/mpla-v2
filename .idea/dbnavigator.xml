@@ -53,8 +53,7 @@ values(
 'tanimoto.syskey@gmail.com', 'tanimoto'
 );
 
-delete from "public"."users"
-where id = 'tanimoto_id';]]></console>
+delete from "public"."users";]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">

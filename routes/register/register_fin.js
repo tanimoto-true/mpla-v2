@@ -8,24 +8,8 @@ const session = require('express-session');
 const pg = require('pg');
 const Pool = require('pg-pool');
 const dotenv = require('dotenv').config();
-const url = require('url');
 
-const params = url.parse(process.env.DATABASE_URL);
-const auth = params.auth.split(':');
-
-//DBアクセス情報
-const db_config = {
-    host:  params.hostname,
-    database: params.pathname.split('/')[1],
-    user: auth[0],
-    password: auth[1],
-    port: params.port,
-    ssl: true,
-    max: 10, //set pool max size to 20
-    min: 4, //set min pool size to 4
-    idleTimeoutMillis: 1000 //close idle clients after 1 second
-};
-
+const config = require('../../conf/config');
 
 router.post('/', function (req, res, next){
 
@@ -40,7 +24,7 @@ router.post('/', function (req, res, next){
 
     }else{
 
-        let pool = new Pool(db_config);
+        let pool = new Pool(config.db_config);
 
         pool.connect()
 
