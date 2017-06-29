@@ -9,6 +9,7 @@
     "body-parser": "~1.17.1",
     "connect-pg-simple": "^4.2.0",
     "cookie-parser": "~1.4.3",
+    "crypto-js": "^3.1.9-1",
     "debug": "~2.6.3",
     "dotenv": "^4.0.0",
     "ejs": "~2.5.6",

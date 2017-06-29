@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>user</title>
+    <style>
+        .confirm{
+            color : blue;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Confirm what you input!!</h1>
+
+    <div>
+        <div><h2>If it's okay, click submit button to register!!</h2></div>
+        <ul>
+            <li>mail : <% if(typeof user !== "undefined"){ %><span class="confirm"><%= user %></span><br><% } %></li>
+            <li>pass : <% if(typeof pw   !== "undefined"){ %><span class="confirm"><%= pw %></span><br><% } %></li>
+        </ul>
+
+        <button onclick="history.back();">back</button>
+
+        <form action="./register_fin" method="post">
+            <input type="hidden" name="user" value="<% if(typeof user !== "undefined"){ %><%= user %><% } %>">
+            <input type="hidden" name="pw" value="<% if(typeof pw !== "undefined"){ %><%= pw %><% } %>">
+            <input type="submit" value="submit!!">
+        </form>
+    </div>
+</body>
+</html>
