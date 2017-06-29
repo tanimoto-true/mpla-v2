@@ -4,11 +4,11 @@ const helmet = require('helmet');
 let app = express().use(helmet());
 app.use(helmet());
 
-let router = express.Router();
-let session = require('express-session');
-let pg = require('pg');
-let Pool = require('pg-pool');
-let dotenv = require('dotenv').config();
+const router = express.Router();
+const session = require('express-session');
+const pg = require('pg');
+const Pool = require('pg-pool');
+const dotenv = require('dotenv').config();
 
 const config = require('../../conf/config');
 
@@ -43,11 +43,15 @@ router.post('/', function(req, res, next) {
 
         let pool = new Pool(config.db_config);
 
+        (function login(){
+
         pool.connect()
 
             .then(client => {
 
-                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + pass + "'";
+                const register = require('../register/register_funcs');
+
+                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + register.hash_password(pass) + "'";
 
                 client.query(query)
 
@@ -84,6 +88,7 @@ router.post('/', function(req, res, next) {
                 err.status = 501;
                 next(err);
             });
+        }());
     }
 });
 
