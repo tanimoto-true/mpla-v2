@@ -12,8 +12,8 @@ const config = {
         password: auth[1],
         port: params.port,
         ssl: true,
-        max: 10, //set pool max size to 20
-        min: 4, //set min pool size to 4
+        max: 3, //set pool max size to 3
+        min: 1, //set min pool size to 1
         idleTimeoutMillis: 1000 //close idle clients after 1 second
     }
 };
