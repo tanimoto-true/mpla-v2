@@ -37,7 +37,8 @@ router.post('/', function(req, res, next) {
     //idもしくはpwが空の場合
     if( id === "" ||  pass === ""){
 
-        res.render('login/login', {"id": id});
+        res.render('login/login', { id: id,
+                                    error: 'Empty input!!'});
 
     }else{
 
@@ -72,8 +73,11 @@ router.post('/', function(req, res, next) {
 
                         }else{
 
+                            client.release();
+
                             //ログイン失敗のメッセージを表示する
-                            res.send('login失敗');
+                            res.render('login/login', {id: id,
+                                                       error: 'Login failed'});
                         }
                     })
                     .catch(e => {
@@ -95,7 +99,13 @@ router.post('/', function(req, res, next) {
 process.on('unhandledRejection', function(error){
 
     console.log(error);
-    process.exit(1);
 });
+
+//例外処理
+process.on('uncaughtException', function(error){
+
+    console.log(error);
+});
+
 
 module.exports = router;

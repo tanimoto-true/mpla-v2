@@ -66,6 +66,7 @@ router.post('/', function (req, res, next){
 
                     } else {
 
+                        client.release();
                         //重複するデータが存在したことを表示
                         res.send('Error : Please register your info from the beginning!!');
                     }
@@ -74,9 +75,8 @@ router.post('/', function (req, res, next){
 
             //例外処理
             }).catch(e => {
-                let err = new Error('Unpredicted error : ' + e.message + "\n" + 'query : ' + query);
+                let err = new Error('DB connection : ' + e.message + "\n");
                 err.status = 501;
-                client.release();
                 next(err);
             })
     }
