@@ -21,12 +21,29 @@
     <h2>user page</h2>
 </header>
 <div class="container">
+    <%- include('../../views/common/nav_bar'); %>
     <div class="row">
         <div class="col-xs-10 col-xs-offset-1">
            <span class="center-block text-left">Hello <%= id%> !!</span><br>
-            <ul>
-                <li class="list-unstyled"><a href="logout" class="text-right">Logout</a></li>
-            </ul>
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#home" data-toggle="tab">HOME</a></li>
+                    <li class=""><a href="#record" data-toggle="tab">Record</a></li>
+                    <li class=""><a href="#Profit" data-toggle="tab">Profit</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="home">Home Page</div>
+                    <div class="tab-pane" id="record">Record</div>
+                    <div class="tab-pane" id="Profit">Profit</div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+        <ul>
+            <li class="list-unstyled"><a href="logout" class="text-right">Logout</a></li>
+        </ul>
         </div>
     </div>
 </div>

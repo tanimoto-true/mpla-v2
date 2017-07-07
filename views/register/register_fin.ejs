@@ -11,12 +11,18 @@
 </head>
 <body>
 
-<h1>registration complete!!</h1>
-<div>
-    <p>Now, you are a member of our website!!<% if(typeof user !== "undefined"){ %><%= user %>!!!!<% } %></p><br>
-    <p>Let's get it started!!!!</p>
-
-    <button><a href="/">Go to top page!!</a></button>
+<header>
+    <h2>Registration complete!!</h2>
+</header>
+<div class="container">
+    <%- include('../common/nav_bar'); %>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+            <div><h3 class="lead">Registration completed</h3></div>
+            <button><a href="/">Go to top page!!</a></button>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

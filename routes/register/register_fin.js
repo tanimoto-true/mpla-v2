@@ -60,7 +60,7 @@ router.post('/', function (req, res, next){
                                 client.release();
 
                                 //登録完了のメッセージを送信
-                                res.send('registration complete');
+                                res.render('register_fin');
 
                             });
 
