@@ -8,18 +8,23 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="/stylesheets/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
     <title>registration complete</title>
+    <style>
+        header{
+            margin: 100px 20px 80px;
+            text-align: center;
+            border-bottom: 1px solid #e1e1e1;
+        }
+    </style>
 </head>
 <body>
-
+<%- include('../common/nav_bar'); %>
 <header>
-    <h2>Registration complete!!</h2>
+    <h2>Registration completed</h2>
 </header>
 <div class="container">
-    <%- include('../common/nav_bar'); %>
     <div class="row">
-        <div class="col-xs-10 col-xs-offset-1">
-            <div><h3 class="lead">Registration completed</h3></div>
-            <button><a href="/">Go to top page!!</a></button>
+        <div>
+            <button class="btn btn-default center-block"><a href="/">Go to top page!!</a></button>
         </div>
     </div>
 </div>

@@ -39,25 +39,22 @@
 
                 <div class="form-group">
                     <label class="control-label" for="user">User name</label>
-                    <input type="text" id="user" class="form-control" name="user_id" placeholder="user name">
-                    <% if(typeof mail_err !== "undefined"){ %><span class="err"><%= mail_err %></span><br><% } %>
-                    <% if(typeof duplicated !== "undefined"){ %><span class="err"><%= duplicated %></span><br><% } %>
+                    <input type="text" id="user" class="form-control" name="user" placeholder="user name">
+                    <% if(typeof user !== "undefined"){ %><span class="err"><%= user %></span><br><% } %>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="email">Email</label>
-                    <input type="text" id="user" class="form-control" name="mail" placeholder="email">
-                    <% if(typeof mail_err !== "undefined"){ %><span class="err"><%= mail_err %></span><br><% } %>
-                    <% if(typeof duplicated !== "undefined"){ %><span class="err"><%= duplicated %></span><br><% } %>
+                    <input type="text" id="user" class="form-control" name="email" placeholder="email">
+                    <% if(typeof email !== "undefined"){ %><span class="err"><%= email %></span><br><% } %>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="pass">Password</label>
-                    <input type="password" id="pass" name="pw" class="form-control" placeholder="password"><br>
-                    <% if(typeof pw_length !== "undefined"){ %><span class="err"><%= pw_length %></span><br><% } %>
-                    <% if(typeof pw_format !== "undefined"){ %><span class="err"><%= pw_format %></span><br><% } %>
+                    <input type="password" id="pass" name="pw" class="form-control" placeholder="password">
+                    <% if(typeof pw !== "undefined"){ %><span class="err"><%= pw %></span><br><% } %>
                 </div>
-
+                <br>
                 <div class="form-group">
                     <div><input type="submit" value="next" class="btn btn-lg btn-primary col-sm-3 col-xs-4"></div>
                 </div>
