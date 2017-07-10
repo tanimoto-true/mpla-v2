@@ -31,13 +31,13 @@ router.get('/', function(req, res) {
 router.post('/', function(req, res, next) {
 
     //入力されたidとpwを取得
-    let id   = req.body.id,
-        pass = req.body.pw;
+    let user_id    = req.body.user_id,
+        pass  = req.body.pw;
 
     //idもしくはpwが空の場合
-    if( id === "" ||  pass === ""){
+    if( user_id === "" ||  pass === ""){
 
-        res.render('login/login', { id: id,
+        res.render('login/login', { user_id: user_id,
                                     error: 'Empty input!!'});
 
     }else{
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next) {
 
                 const register = require('../register/register_funcs');
 
-                let query = 'SELECT count(1) from users where id =' + "'" + id + "'" + ' and pass=' + "'" + register.hash_password(pass) + "'";
+                let query = `SELECT count(1) from "public"."user" where (user_id ='${user_id}' or email='${user_id}') and password=` + "'" + register.hash_password(pass) + "'" + ` limit 1`;
 
                 client.query(query)
 
@@ -61,7 +61,7 @@ router.post('/', function(req, res, next) {
                         if(result.rows[0].count === "1"){
 
                             //セッションにidをセットする
-                            req.session.user = id;
+                            req.session.user = user_id;
 
                             //セッションにloginステータスをセットする
                             req.session.login = 'yes';
@@ -69,14 +69,14 @@ router.post('/', function(req, res, next) {
                             client.release();
 
                             //userページを表示する
-                            res.render('user/user', {"id": id});
+                            res.render('user/user', {user_id: user_id});
 
                         }else{
 
                             client.release();
 
                             //ログイン失敗のメッセージを表示する
-                            res.render('login/login', {id: id,
+                            res.render('login/login', {user_id: user_id,
                                                        error: 'Login failed'});
                         }
                     })
