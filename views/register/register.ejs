@@ -17,38 +17,46 @@
             text-align: center;
             border-bottom: 1px solid #e1e1e1;
         }
-        .submit-button{
-            margin: 10px 20px 10px;
-            border-top: 1px solid #e1e1e1;
-        }
         ul {
             list-style:none;
+        }
+        .lead {
+            font-size: 20px;
+            font-weight: 300;
         }
     </style>
 </head>
 <body>
+<%- include('../../views/common/nav_bar'); %>
 <header>
-<h2>Registration</h2>
+<h2>Sign up</h2>
 </header>
 <div class="container">
     <div class="row">
-        <div class="col-xs-9 col-xs-offset-2">
-            <form action="./register" method="post">
-                <div>
-                    <ul>
-                        <div><h3 class="lead">input followings and click next</h3></div>
-                        <li>mail address<input type="text" name="user" class="form-control"></li><br>
+        <div class="col-xs-8 col-sm-7 col-xs-offset-2 col-sm-offset-3">
+            <div><h3 class="lead">Fill followings and click next</h3></div>
+            <form class="form-horizontal" action="./register" method="post">
 
-                        <% if(typeof mail_err !== "undefined"){ %><span class="err"><%= mail_err %></span><br><% } %>
-                        <% if(typeof duplicated !== "undefined"){ %><span class="err"><%= duplicated %></span><br><% } %>
+                <div class="form-group">
+                    <label class="control-label" for="user">User name</label>
+                    <input type="text" id="user" class="form-control" name="user" placeholder="user name">
+                    <% if(typeof user !== "undefined"){ %><span class="err"><%= user %></span><br><% } %>
+                </div>
 
-                        <li>password<input type="password" name="pw" class="form-control"></li><br>
+                <div class="form-group">
+                    <label class="control-label" for="email">Email</label>
+                    <input type="text" id="user" class="form-control" name="email" placeholder="email">
+                    <% if(typeof email !== "undefined"){ %><span class="err"><%= email %></span><br><% } %>
+                </div>
 
-                        <% if(typeof pw_length !== "undefined"){ %><span class="err"><%= pw_length %></span><br><% } %>
-                        <% if(typeof pw_format !== "undefined"){ %><span class="err"><%= pw_format %></span><br><% } %>
-
-                        <div><input type="submit" value="next" class="btn btn-lg btn-primary center-block submit-button"></div>
-                    </ul>
+                <div class="form-group">
+                    <label class="control-label" for="pass">Password</label>
+                    <input type="password" id="pass" name="pw" class="form-control" placeholder="password">
+                    <% if(typeof pw !== "undefined"){ %><span class="err"><%= pw %></span><br><% } %>
+                </div>
+                <br>
+                <div class="form-group">
+                    <div><input type="submit" value="next" class="btn btn-lg btn-primary col-sm-3 col-xs-4"></div>
                 </div>
             </form>
         </div>

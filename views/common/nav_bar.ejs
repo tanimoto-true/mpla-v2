@@ -1,0 +1,34 @@
+<script>
+    $(function(){
+        $('.navMenu').on({
+
+            mouseenter: function(){
+                $(this).addClass("active");
+            },
+
+            mouseout: function() {
+                $(this).removeClass("active");
+            }
+        });
+    });
+</script>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target=".target">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Top</a>
+        </div>
+        <div class="collapse navbar-collapse target">
+            <ul class="nav navbar-nav">
+                <li class="navMenu"><a href="../login">login</a></li>
+                <li class="navMenu"><a href="../register">sign up</a></li>
+            </ul>
+            <p class="navbar-text">ようこそ <a href="/user" class="navbar-link"><% if(typeof user_id !== 'undefined'){ %><%= user_id %><% }else{ %><%= 'ゲスト' %><% } %></a>さん</p>
+        </div>
+    </div>
+</nav>

@@ -23,14 +23,17 @@
     </style>
 </head>
 <body>
+
 <header>
     <h2>Login page</h2>
 </header>
+
+<%- include('../common/nav_bar'); %>
 <form action="/login" method="post">
     <div class="container">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
-                <div>Mail address<input type="text" name="id" value="<% if(typeof id !== "undefined"){ %><%= id%><% } %>" class="form-control"></div><br>
+                <div>Mail address<input type="text" name="user_id" value="<% if(typeof user_id !== "undefined"){ %><%= user_id %><% } %>" class="form-control"></div><br>
                 <div>Password<input type="password" name="pw" class="form-control"></div><br>
                 <% if(typeof error !== "undefined"){ %><p class="text-center err"><%= error%></p><% } %>
                 <div><input type="submit" value="Login" class="btn btn-lg btn-primary"></div><br>

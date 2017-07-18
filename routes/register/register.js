@@ -7,7 +7,7 @@ const router  = express.Router();
 const validator = require('validator');
 const pg = require('pg');
 const Pool = require('pg-pool');
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 const config = require('../../conf/config');
 
 /* Get register page */
@@ -19,50 +19,70 @@ router.get('/', function (req, res, next){
 router.post('/', function (req, res, next){
 
     let user  = req.body.user,
+        email = req.body.email,
         pw    = req.body.pw,
         error = {
-            mail_err: "",
-            pw_length: "",
-            pw_format: "",
-            duplicated: ""
+            user: "",
+            email: "",
+            pw: ""
         };
 
     if( user === "" ){
 
-        error.mail_err = "Empty mail address";
+        error.user = "Empty user id";
+
+    }else{
+
+        //UserIDケタ数チェック
+        if( !validator.isLength(user, {min:6, max:128})){
+
+            error.user = 'User id should be within 6-128 letters';
+        }
+
+        //UserIDフォーマットチェック
+        if( !validator.isAlphanumeric(user) ){
+
+            error.user = 'User id should only contains alphabetical or numeric characters';
+        }
+
+    }
+
+    if( email === "" ){
+
+        error.email = "Empty mail address";
 
     }else{
 
         //メールフォーマットチェック
-        if( !validator.isEmail(user) ){
+        if( !validator.isEmail(email) ){
 
-            error.mail_err = 'Mail format is not correct';
+            error.email = 'Mail format is not correct';
         }
     }
 
     if( pw === "" ){
 
-        error.pw_length = "Empty password";
+        error.pw = "Empty password";
 
     }else{
 
         //パスワードケタ数チェック
         if( !validator.isLength(pw, {min:6, max:128})){
 
-            error.pw_length = 'Password should be within 6-128 letters';
+            error.pw = 'Password should be within 6-128 letters';
         }
 
         //パスワードフォーマットチェック
         if( !validator.isAlphanumeric(pw) ){
 
-            error.pw_format = 'Password should only contains alphabetical or numeric characters';
+            error.pw = 'Password should only contains alphabetical or numeric characters';
         }
     }
 
 
-    if( !validator.isEmpty(error.mail_err)  ||
-        !validator.isEmpty(error.pw_length) ||
-        !validator.isEmpty(error.pw_format)) {
+    if( !validator.isEmpty(error.user)  ||
+        !validator.isEmpty(error.email) ||
+        !validator.isEmpty(error.pw)) {
 
         res.render('register/register', error);
 
@@ -75,28 +95,27 @@ router.post('/', function (req, res, next){
             .then(client => {
 
                 //重複するユーザーidが存在するか確認する
-                let query = 'select count(1) from users ' +
-                    'where id=' + "'" + user + "';";
+                query = 'select count(1) from' + '"public"."user" ' +
+                    'where user_id=' + "'" + user + "';";
 
                 client.query(query).then(result => {
 
                     //重複するユーザーが存在しなかった場合
                     if (result.rows[0].count === '0') {
 
-                        client.release();
-
-                        req.session.user = req.body.user;
-                        req.session.pw   = req.body.pw;
+                        req.session.user  = req.body.user;
+                        req.session.email = req.body.email;
+                        req.session.pw    = req.body.pw;
 
                         res.redirect('/register/confirm');
 
                     } else {
 
-                        client.release();
-
-                        error.duplicated = 'This email is already in use. Please use other one.';
+                        error.user = 'This user id is already in use. Please use other one.';
                         res.render('register/register', error);
                     }
+
+                    client.release();
 
                 });
 
@@ -106,7 +125,6 @@ router.post('/', function (req, res, next){
                 client.release();
                 next(err);
         })
-
     }
 });
 

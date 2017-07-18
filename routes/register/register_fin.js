@@ -7,20 +7,27 @@ const router = express.Router();
 const session = require('express-session');
 const pg = require('pg');
 const Pool = require('pg-pool');
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 
 const config = require('../../conf/config');
+
+router.get('/', function (req, res, next){
+
+    //登録完了のメッセージを送信
+    res.render('register/register_fin');
+});
 
 router.post('/', function (req, res, next){
 
     //入力されたuser_idとpwを取得
     let user   = req.body.user,
-        pass = req.body.pw;
+        email  = req.body.email,
+        pass   = req.body.pw;
 
-    //idもしくはpwが空の場合
-    if( user === "" ||  pass === ""){
+    //UserID, emailもしくはpwが空の場合
+    if( typeof user === "undefined" || typeof email=== "undefined" || typeof pass === "undefined"){
 
-        res.render('register/register');
+        res.redirect('register/register');
 
     }else{
 
@@ -30,9 +37,9 @@ router.post('/', function (req, res, next){
 
             .then(client => {
 
-                //重複するユーザーidが存在するか確認する
-                let query = 'select count(1) from users ' +
-                    'where id=' + "'" + user + "';";
+                //重複するUserIDが存在するか確認する
+                let query = 'select count(1) from "public"."user" ' +
+                    'where user_id=' + "'" + user + "';";
 
                 client.query(query).then(result => {
 
@@ -44,23 +51,25 @@ router.post('/', function (req, res, next){
                         pass = register.hash_password(pass);
 
                         //ユーザー情報を登録する
-                        let query = 'insert into users ' +
-                            '(id, pass)' +
+                        let query = 'insert into "public"."user" ' +
+                            '(user_id, email, password)' +
                             'values( ' +
                             "'" + user + "'," +
+                            "'" + email + "'," +
                             "'" + pass + "'" + ');';
 
                         client.query(query)
 
-                            .then(() => {
+                            .then(result => {
 
                                 //セッションにloginステータスをセットする
                                 req.session.login = 'yes';
 
+
                                 client.release();
 
                                 //登録完了のメッセージを送信
-                                res.send('registration complete');
+                                res.render('register/register_fin');
 
                             });
 
