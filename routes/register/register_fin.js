@@ -7,7 +7,7 @@ const router = express.Router();
 const session = require('express-session');
 const pg = require('pg');
 const Pool = require('pg-pool');
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 
 const config = require('../../conf/config');
 
@@ -60,10 +60,11 @@ router.post('/', function (req, res, next){
 
                         client.query(query)
 
-                            .then(() => {
+                            .then(result => {
 
                                 //セッションにloginステータスをセットする
                                 req.session.login = 'yes';
+
 
                                 client.release();
 

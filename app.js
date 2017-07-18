@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pg = require('pg');
-const dotenv = require('dotenv').config();
-const rfs = require('rotating-file-stream');
+// const dotenv = require('dotenv').config();
+// const rfs = require('rotating-file-stream');
 
 let index = require('./routes/index');
 let login = require('./routes/login/login');
@@ -30,16 +30,16 @@ let app = express();
  //     log setup     //
 ///////////////////////
 
-let logDirectory = path.join(__dirname, 'log/');
+// let logDirectory = path.join(__dirname, 'log/');
+//
+// fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
 
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
-
-accessLogStream = rfs('access.log', {
-    interval: '1d', // rotate daily
-    path: logDirectory,
-    size:     '10M', // rotate every 10 MegaBytes written
-    compress: 'gzip' // compress rotated files
-});
+// accessLogStream = rfs('access.log', {
+//     interval: '1d', // rotate daily
+//     path: logDirectory,
+//     size:     '10M', // rotate every 10 MegaBytes written
+//     compress: 'gzip' // compress rotated files
+// });
 
 app.use(helmet());
 
@@ -53,7 +53,7 @@ app.set('view engine', 'ejs');
 
 //uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('combined', {stream: accessLogStream}));
+// app.use(logger('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));

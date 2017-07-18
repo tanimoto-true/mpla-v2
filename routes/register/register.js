@@ -7,7 +7,7 @@ const router  = express.Router();
 const validator = require('validator');
 const pg = require('pg');
 const Pool = require('pg-pool');
-const dotenv = require('dotenv').config();
+// const dotenv = require('dotenv').config();
 const config = require('../../conf/config');
 
 /* Get register page */
@@ -42,7 +42,7 @@ router.post('/', function (req, res, next){
         //UserIDフォーマットチェック
         if( !validator.isAlphanumeric(user) ){
 
-            error.pw = 'User id should only contains alphabetical or numeric characters';
+            error.user = 'User id should only contains alphabetical or numeric characters';
         }
 
     }
