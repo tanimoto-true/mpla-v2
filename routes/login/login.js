@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
 
             .then(client => {
 
-                const register = require('../register/register_funcs');
+                const register = require('../sign_up/sign_up_funcs');
 
                 let query = `SELECT count(1) from "public"."user" where (user_id ='${user_id}' or email='${user_id}') and password=` + "'" + register.hash_password(pass) + "'" + ` limit 1`;
 

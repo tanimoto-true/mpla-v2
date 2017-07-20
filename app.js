@@ -8,20 +8,18 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pg = require('pg');
-// const dotenv = require('dotenv').config();
-// const rfs = require('rotating-file-stream');
+const rfs = require('rotating-file-stream');
 
 let index = require('./routes/index');
 let login = require('./routes/login/login');
 let logout = require('./routes/login/logout');
 let user = require('./routes/user/user');
 let async = require('./routes/async');
-let register = require('./routes/register/register');
-let confirm = require('./routes/register/confirm');
-let register_fin = require('./routes/register/register_fin');
+let input = require('./routes/sign_up/input');
+let confirm = require('./routes/sign_up/confirm');
+let exec_register = require('./routes/sign_up/exec_register');
 
 let err_handler = require('./routes/err_handler');
-
 
 let app = express();
 
@@ -57,6 +55,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(helmet());
 
 
   ////////////////////
@@ -70,7 +69,7 @@ app.use(session({
         conString: process.env.DATABASE_URL
     }),
     saveUninitialized: true,
-    secret: 'iufhefirgfi3ufw',
+    secret: process.env.COOKIE_SECRET,
     resave: false,
     cookie: {maxAge: 30 * 60 * 1000} // 30分
 }));
@@ -84,9 +83,9 @@ app.use('/login', login);
 app.use('/logout', logout);
 app.use('/user', user);
 app.use('/async', async);
-app.use('/register', register);
-app.use('/register/confirm', confirm);
-app.use('/register/register_fin', register_fin);
+app.use('/sign_up', input);
+app.use('/sign_up/confirm', confirm);
+app.use('/sign_up/exec_register', exec_register);
 
 
   ////////////////////////////////////////////
