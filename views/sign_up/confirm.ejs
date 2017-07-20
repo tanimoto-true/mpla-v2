@@ -35,22 +35,22 @@
             <table class="table">
 
                 <tr><th>User id</th></tr>
-                <tr><td class="confirm"><% if(typeof user !== "undefined"){ %><%= user %><% } %></td></tr>
+                <tr><td class="confirm"><% if(typeof input.user !== "undefined"){ %><%= input.user %><% } %></td></tr>
 
                 <tr><th>Email</th></tr>
-                <tr><td class="confirm"><% if(typeof email !== "undefined"){ %><%= email %><% } %></td></tr>
+                <tr><td class="confirm"><% if(typeof input.email !== "undefined"){ %><%= input.email %><% } %></td></tr>
 
                 <tr><th>Password</th></tr>
-                <tr><td class="confirm"><% if(typeof pw !== "undefined"){ %><%= pw %><% } %></td></tr>
+                <tr><td class="confirm"><% if(typeof input.pw !== "undefined"){ %><%= input.pw %><% } %></td></tr>
 
             </table>
 
             <button onclick="history.back();" class="btn btn-lg btn-primary">back</button><br>
 
-            <form action="./register_fin" method="post">
-                <input type="hidden" name="user" value="<% if(typeof user !== "undefined"){ %><%= user %><% } %>">
-                <input type="hidden" name="email" value="<% if(typeof email !== "undefined"){ %><%= email %><% } %>">
-                <input type="hidden" name="pw" value="<% if(typeof pw !== "undefined"){ %><%= pw %><% } %>">
+            <form action="./sign_up/exec_register" method="post">
+                <input type="hidden" name="user" value="<% if(typeof input.user !== "undefined"){ %><%= input.user %><% } %>">
+                <input type="hidden" name="email" value="<% if(typeof input.email !== "undefined"){ %><%= input.email %><% } %>">
+                <input type="hidden" name="pw" value="<% if(typeof input.pw !== "undefined"){ %><%= input.pw %><% } %>">
                 <br>
                 <input type="submit" value="submit!!" class="btn btn-lg btn-primary">
             </form>
