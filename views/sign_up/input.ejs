@@ -39,20 +39,20 @@
 
                 <div class="form-group">
                     <label class="control-label" for="user">User name</label>
-                    <input type="text" id="user" class="form-control" name="user" placeholder="user name">
-                    <% if(typeof user !== "undefined"){ %><span class="err"><%= user %></span><br><% } %>
+                    <input type="text" id="user" class="form-control" name="user" placeholder="user name" value="<% if(typeof input.user !== "undefined"){ %><%= input.user %><% } %>">
+                    <% if( error.user !== ""){ %><span class="err"><%= error.user %></span><br><% } %>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="email">Email</label>
-                    <input type="text" id="user" class="form-control" name="email" placeholder="email">
-                    <% if(typeof email !== "undefined"){ %><span class="err"><%= email %></span><br><% } %>
+                    <input type="text" id="user" class="form-control" name="email" placeholder="email" value="<% if(typeof input.email !== "undefined"){ %><%= input.email %><% } %>">
+                    <% if( error.email !== ""){ %><span class="err"><%= error.email %></span><br><% } %>
                 </div>
 
                 <div class="form-group">
                     <label class="control-label" for="pass">Password</label>
                     <input type="password" id="pass" name="pw" class="form-control" placeholder="password">
-                    <% if(typeof pw !== "undefined"){ %><span class="err"><%= pw %></span><br><% } %>
+                    <% if( error.pw !== ""){ %><span class="err"><%= error.pw %></span><br><% } %>
                 </div>
                 <br>
                 <div class="form-group">
