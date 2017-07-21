@@ -7,7 +7,7 @@ const common = require('../common/common_func');
  * 引数
  *   email : メールアドレス
  *
- * 戻り値 : クエリ実行結果
+ * 戻り値 : 検索結果件数
  *
  * 作成日 2017/7/20 H.Tanimoto
  *
@@ -51,6 +51,32 @@ module.exports.insert_user_info = function( user, email, password ) {
                          '${email}',
                          '${password}'
                      );`;
+
+    return common.exec_sql(query);
+};
+
+
+/**************************************************************************************
+ *
+ * ログインするためのユーザーを検索する
+ *
+ * 引数
+ *   email    : メールアドレス
+ *   password : パスワード
+ *
+ * 戻り値 : ユーザー情報
+ *
+ * 作成日 2017/7/20 H.Tanimoto
+ *
+ **************************************************************************************/
+module.exports.search_user_for_login = function( email, password ) {
+
+    //クエリを定義
+    let query = `SELECT * 
+                 FROM "user" 
+                 WHERE email = '${email}' 
+                 AND password= '${password}'
+                 LIMIT 1`;
 
     return common.exec_sql(query);
 };

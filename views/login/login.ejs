@@ -33,9 +33,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-10 col-xs-offset-1">
-                <div>Mail address<input type="text" name="user_id" value="<% if(typeof user_id !== "undefined"){ %><%= user_id %><% } %>" class="form-control"></div><br>
+                <div>Email<input type="text" name="email" value="<% if(typeof user_id !== "undefined"){ %><%= user_id %><% } %>" class="form-control"></div><br>
+                <% if(typeof error.email !== "undefined"){ %><p class="text-center err"><%= error.email %></p><% } %>
                 <div>Password<input type="password" name="pw" class="form-control"></div><br>
-                <% if(typeof error !== "undefined"){ %><p class="text-center err"><%= error%></p><% } %>
+                <% if(typeof error.password !== "undefined"){ %><p class="text-center err"><%= error.password %></p><% } %>
+                <% if(typeof error.fail !== "undefined"){ %><p class="text-center err"><%= error.fail %></p><% } %>
                 <div><input type="submit" value="Login" class="btn btn-lg btn-primary"></div><br>
                 <div><a href="register">Go to sign up page</a></div>
             </div>
