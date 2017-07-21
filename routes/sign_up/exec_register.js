@@ -43,8 +43,10 @@ router.post('/', function (req, res, next){
             //セッションにloginステータスをセットする
             req.session.login = 'yes';
 
+            req.session.user_id = input.user;
+
             //登録完了のメッセージを送信
-            res.render('sign_up/register_fin');
+            res.render('sign_up/register_fin', {user_id: input.user} );
 
         }else{
 

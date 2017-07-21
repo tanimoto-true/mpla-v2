@@ -56,7 +56,7 @@ module.exports.check_input = function(user, email, password){
     }else{
 
         //UserIDフォーマットチェック
-        if( !validator.isLength(user, {min:6, max:128}) || !validator.isAlphanumeric(user) ){
+        if( /^[\x21-\x7e]{6,128}$/g.exec(user) === null ){
 
             error.user = 'ユーザーIDは6桁〜128桁の英数字で入力してください。';
         }
@@ -127,7 +127,7 @@ module.exports.is_error_exist = function(error) {
  * 引数
  *   error : エラーメッセージを格納するオブジェクト
  *
- * 戻り値 :
+ * 戻り値 : エラーメッセージ
  *
  * 作成日 2017/7/20 H.Tanimoto
  *
@@ -138,27 +138,30 @@ module.exports.promised_check_email_duplication = function(email, error) {
 
         // メールアドレスの入力エラーが存在する場合
         if( error !== '' ) {
+
             //何もせずに次の処理へ
-            resolve();
+            resolve('');
+
+        } else {
+
+            const user_sql = require('../../model/user');
+
+            // メールアドレスの重複チェック
+            user_sql.is_exist_email(email)
+
+                .then(ret => {
+
+                    //重複するユーザーが存在した場合
+                    if (ret.rows[0].count !== '0') {
+
+                        //エラーメッセージをセットする
+                        resolve('すでに使用されているメールアドレスです。');
+
+                    } else {
+
+                        resolve();
+                    }
+                });
         }
-
-        const user_sql = require('../../model/user');
-
-        // メールアドレスの重複チェック
-        user_sql.is_exist_email(email)
-
-            .then(ret => {
-
-                //重複するユーザーが存在した場合
-                if (ret.rows[0].count !== '0') {
-
-                    //エラーメッセージをセットする
-                    resolve ('すでに使用されているメールアドレスです。');
-
-                }else{
-
-                    resolve();
-                }
-            });
     });
 };
