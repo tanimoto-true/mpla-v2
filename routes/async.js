@@ -4,9 +4,9 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-    setTimeout(console.log('initial log'), 3000);
-
-    console.log('second log');
+    // setTimeout(console.log('initial log'), 3000);
+    //
+    // console.log('second log');
 
     let promise = new Promise((resolve, reject) => {
 
@@ -27,21 +27,38 @@ router.get('/', function(req, res, next) {
 
     promise.then((data) => {
 
-        console.log(data);
+        console.log(`正常処理 : ${data}`);
 
-        return 'data 2 string';
-    })
-        .then((data) => console.log('data2 : ' + data))
-        .then(() => res.send('this is promise test!!'));
+    }, (data) => {
 
-    promise.catch((error) => {
+        console.log(`エラー処理 : ${data}`);
+
+    }).catch((error) => {
+
+        console.log(`例外処理 : ${data}`);
+
         next(new Error(error));
     });
 
-    process.on('unhandledRejection', console.dir);
 
-    console.log('third log');
-
+//     promise.then((success_data) => {
+//
+//         console.log(success_data);
+//
+//         return 'data 2 string';
+//     })
+//         .then((data) => console.log('data2 : ' + data))
+//         .then(() => res.send('this is promise test!!'));
+//
+//     promise.catch((error) => {
+//         next(new Error(error));
+//     });
+//
+//     process.on('unhandledRejection', console.dir);
+//
+//     console.log('third log');
+//
+    res.send('test成功');
 });
 
 module.exports = router;

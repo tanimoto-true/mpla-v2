@@ -21,44 +21,39 @@ router.get('/', function (req, res){
 
 
 /*  POST sign up page */
-router.post('/', function (req, res, next){
+router.post('/', function (req, res){
 
     let input = {
             user  : req.body.user,
             email : req.body.email,
             pw    : req.body.pw
-        },
-        error = sign_up_funcs.check_input(input.user, input.email, input.pw);
+        };
 
-    // メールアドレス重複チェック処理を行う。エラーが存在する場合はpromiseを通して返す。
-    sign_up_funcs.promised_check_email_duplication(input.email, error.email).then((err_msg)=>{
+    // 入力チェック
+    (async function(input){
 
-        //エラーメッセージが存在する場合
-        if(err_msg) {
+        // 入力されたユーザー情報をチェックしてエラーメッセージを返す
+        let error = await sign_up_funcs.promise_check_input(input.user, input.email, input.pw);
 
-            //エラーメッセージをセットする
-            error.email = err_msg;
-        }
+        // エラーメッセージが存在する場合
+        if (sign_up_funcs.is_error_exist(error) === true) {
 
-         // 入力エラーが存在する場合
-        if( sign_up_funcs.is_error_exist(error) === true ) {
-
-            res.render('sign_up/input', { error: error, input: input, user_id: req.session.user_id });
+            // ユーザー情報入力画面にエラーを出力
+            res.render('sign_up/input', {error: error, input: input, user_id: req.session.user_id});
 
         // 入力エラーが存在しない場合
-        }else{
+        } else {
 
+            // セッションテーブルにユーザーの入力値を保存する
             req.session.user_info = input;
 
-            res.render('sign_up/confirm', { input: input, user_id: req.session.user_id });
+            // 入力内容確認画面に遷移する
+            res.render('sign_up/confirm', {input: input, user_id: req.session.user_id});
         }
 
-    }).catch(e => {
+    })(input);
 
-        let err = new Error('Unpredicted error : ' + e.message + "\n");
-        err.status = 501;
-        next(err);
-    });
 });
+
 
 module.exports = router;

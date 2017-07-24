@@ -41,54 +41,68 @@ module.exports.hash_password = function(pass){
  * 作成日 2017/7/20 H.Tanimoto
  *
  **************************************************************************************/
-module.exports.check_input = function(user, email, password){
+module.exports.promise_check_input = async function(user, email, password){
 
-    let error = {
-          user     : '',
-          email    : '',
-          pw : '',
-    };
+        let error = {
+            user: '',
+            email: '',
+            pw: '',
+        };
 
-    if( user === "" ){
+        if (user === "") {
 
-        error.user = "ユーザーIDを入力してください。";
+            error.user = "ユーザーIDを入力してください。";
 
-    }else{
+        } else {
 
-        //UserIDフォーマットチェック
-        if( /^[\x21-\x7e]{6,128}$/g.exec(user) === null ){
+            //UserIDフォーマットチェック
+            if (/^[\x21-\x7e]{6,128}$/g.exec(user) === null) {
 
-            error.user = 'ユーザーIDは6桁〜128桁の英数字で入力してください。';
+                error.user = 'ユーザーIDは6桁〜128桁の英数字で入力してください。';
+            }
         }
-    }
 
-    if( email === "" ){
+        await (async function (email) {
 
-        error.email = "メールアドレスを入力してください。";
+            if (email === "") {
 
-    }else{
+                error.email = "メールアドレスを入力してください。";
 
-        //メールフォーマットチェック
-        if( /^[^@]+@[^@]+\.[a-z]{2,}$/g.exec(email) === null ){
+            //メールフォーマットチェック
+            } else if(/^[^@]+@[^@]+\.[a-z]{2,}$/g.exec(email) === null) {
 
-            error.email = 'メールアドレスを正しい形式で入力してください。';
+                error.email = 'メールアドレスを正しい形式で入力してください。';
+
+            //メールアドレスの重複チェック
+            } else {
+
+                const sign_up_funcs = require('./sign_up_funcs');
+
+                // メールアドレスの登録件数を取得する。
+                const result = await sign_up_funcs.ret_registered_email_count(email);
+
+                //登録されているメールアドレスが0件出なかった場合
+                if (result !== '0') {
+
+                    error.email = 'すでに使用されているメールアドレスです。';
+                }
+            }
+        })(email);
+
+        if (password === "") {
+
+            error.pw = "パスワードを入力してください。";
+
+        } else {
+
+            //パスワードフォーマットチェック
+            if (/^[\x21-\x7e]{6,128}$/g.exec(password) === null) {
+
+                error.pw = 'パスワードは6桁〜128桁の英数字で入力してください。';
+            }
         }
-    }
 
-    if( password === "" ){
-
-        error.pw = "パスワードを入力してください。";
-
-    }else{
-
-        //パスワードフォーマットチェック
-        if( /^[\x21-\x7e]{6,128}$/g.exec(password) === null ){
-
-            error.pw = 'パスワードは6桁〜128桁の英数字で入力してください。';
-        }
-    }
-
-    return error;
+        return error;
 };
 
 
@@ -122,46 +136,22 @@ module.exports.is_error_exist = function(error) {
 
 /**************************************************************************************
  *
- * メールアドレスの重複チェックを行う関数をラップしたpromiseを返す
+ * メールアドレスの登録件数を返す
  *
  * 引数
- *   error : エラーメッセージを格納するオブジェクト
+ *   email : メールアドレス
  *
- * 戻り値 : エラーメッセージ
+ * 戻り値 : 検索結果の件数
  *
  * 作成日 2017/7/20 H.Tanimoto
  *
  **************************************************************************************/
-module.exports.promised_check_email_duplication = function(email, error) {
+module.exports.ret_registered_email_count = async function(email) {
 
-    return new Promise((resolve) => {
+    const user_sql = require('../../model/user');
 
-        // メールアドレスの入力エラーが存在する場合
-        if( error !== '' ) {
+    // メールアドレスの重複チェック
+    const result = await user_sql.is_exist_email(email);
 
-            //何もせずに次の処理へ
-            resolve('');
-
-        } else {
-
-            const user_sql = require('../../model/user');
-
-            // メールアドレスの重複チェック
-            user_sql.is_exist_email(email)
-
-                .then(ret => {
-
-                    //重複するユーザーが存在した場合
-                    if (ret.rows[0].count !== '0') {
-
-                        //エラーメッセージをセットする
-                        resolve('すでに使用されているメールアドレスです。');
-
-                    } else {
-
-                        resolve();
-                    }
-                });
-        }
-    });
+    return result.rows[0].count;
 };
