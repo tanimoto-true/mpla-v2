@@ -1,10 +1,4 @@
-let express = require('express');
-
-const helmet = require('helmet');
-let app = express().use(helmet());
-app.use(helmet());
-
-let router = express.Router();
+const router = require('express').Router();
 
 router.get('/', function(req, res, next) {
     req.session.destroy();

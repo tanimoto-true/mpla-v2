@@ -1,5 +1,4 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const sign_up_funcs = require('./sign_up_funcs');
 
 router.post('/', function (req, res){

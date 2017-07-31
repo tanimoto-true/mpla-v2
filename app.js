@@ -3,25 +3,23 @@ const fs = require('fs');
 const helmet = require('helmet');
 const path = require('path');
 const favicon = require('serve-favicon');
-const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgSession = require('connect-pg-simple')(session);
 const pg = require('pg');
-const rfs = require('rotating-file-stream');
 
-let index = require('./routes/index');
-let login = require('./routes/login/login');
-let logout = require('./routes/login/logout');
-let user = require('./routes/user/user');
-let async = require('./routes/async');
-let input = require('./routes/sign_up/input');
-let confirm = require('./routes/sign_up/confirm');
-let exec_register = require('./routes/sign_up/exec_register');
+const index = require('./routes/index');
+const login = require('./routes/login/login');
+const logout = require('./routes/login/logout');
+const user = require('./routes/user/user');
+const async = require('./routes/async');
+const input = require('./routes/sign_up/input');
+const confirm = require('./routes/sign_up/confirm');
+const exec_register = require('./routes/sign_up/exec_register');
 
-let err_handler = require('./routes/err_handler');
+const err_handler = require('./routes/err_handler');
 
-let app = express();
+const app = express();
 
 
   ///////////////////////
@@ -55,7 +53,6 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(helmet());
 
 
   ////////////////////
